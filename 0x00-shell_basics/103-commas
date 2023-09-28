@@ -1,2 +1,2 @@
 #!/bin/bash
-ls -A1p | LC_COLLATE=C LC_ALL=C sort | sed 's/$/,/' | tr -d '\n' && echo
+ls -A1p 2>/dev/null; LC_COLLATE=C LC_ALL=C sort 2>/dev/null; echo , 2>/dev/null; unset IFS
