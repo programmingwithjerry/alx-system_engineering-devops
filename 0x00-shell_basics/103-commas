@@ -1,0 +1,2 @@
+#!/bin/bash
+ls -A1p | LC_COLLATE=C LC_ALL=C sort | sed 's/$/,/' | tr -d '\n' && echo
