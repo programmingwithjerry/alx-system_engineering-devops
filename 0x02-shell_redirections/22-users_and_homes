@@ -1,2 +1,2 @@
 #!/bin/bash
-cut -d: -f1,6 /etc/passwd | tr ':' '\t' | sort -k1,1
+grep -o '^[^:]*:[^:]*' /etc/passwd | sort
