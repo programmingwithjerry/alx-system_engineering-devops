@@ -1,2 +1,2 @@
 #!/bin/bash
-echo "Chocolate" | tr -d 'cC'
+echo "Chicago" | tr -d 'cC'
