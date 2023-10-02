@@ -1,0 +1,2 @@
+#!/bin/bash
+sort input.txt | uniq -u | grep -Fxv -f - input.txt
