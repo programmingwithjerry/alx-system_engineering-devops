@@ -1,2 +1,2 @@
 #!/bin/bash
-echo "Accent" | tr 'Ac' 'Ze'
+tr "A" "Z" | tr "c" "e"
