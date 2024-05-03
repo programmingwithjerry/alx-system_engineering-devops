@@ -1,41 +1,42 @@
 #!/usr/bin/env bash
-# Path to the PID file
+# Manages the script manage_my_process.
 
+# Check the first command-line argument
 if [ "${1}" == "start" ]
 then
-    # Start the process in the background
+    # Start the "manage_my_process" script in the background
     ./manage_my_process &
-
-    # Create a PID file to track the process
-    touch /var/run/my_process.pid
-    echo "$!" > /var/run/my_process.pid  # Store the PID of the background process
-
-    echo "manage_my_process started"  # Confirmation message
+    
+    # Ensure /var/run directory is writable
+    touch /var/run/my_process.pid  # Create the PID file to store the process ID
+    echo "$!" > /var/run/my_process.pid  # Write the PID of the background process
+    
+    echo "manage_my_process started"  # Output a success message
 elif [ "${1}" == "stop" ]
 then
-    echo "manage_my_process stopped"  # Confirmation message
-
-    # Terminate the process using the PID stored in the file
+    echo "manage_my_process stopped"  # Indicate that the process is stopping
+    
+    # Terminate the process using its PID from the PID file
     kill "$(cat /var/run/my_process.pid)"
-
-    # Remove the PID file after stopping the process
+    
+    # Delete the PID file
     rm /var/run/my_process.pid
 elif [ "${1}" == "restart" ]
 then
-    # Stop and restart the process
-    kill "$(cat /var/run/my_process.pid)"  # Stop the existing process
-    rm /var/run/my_process.pid  # Remove the PID file
-
-    # Start the new process in the background
+    # Stop the existing process and remove the PID file
+    kill "$(cat /var/run/my_process.pid)"
+    rm /var/run/my_process.pid
+    
+    # Start the process again in the background
     ./manage_my_process &
-
-    # Create a new PID file and store the PID
+    
+    # Create the PID file and write the new PID
     touch /var/run/my_process.pid
-    echo "$!" > /var/run/my_process.pid  # Store the PID of the new process
-
-    echo "manage_my_process restarted"  # Confirmation message
+    echo "$!" > /var/run/my_process.pid
+    
+    echo "manage_my_process restarted"  # Output a success message
 else
-    # Provide usage information for incorrect arguments
+    # If an unrecognized argument is passed, provide usage instructions
     echo "Usage: manage_my_process {start|stop|restart}"
 fi
 
