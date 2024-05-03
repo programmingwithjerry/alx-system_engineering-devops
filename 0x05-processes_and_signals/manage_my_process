@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+# Indefinitely writes "I am alive" to the file /tmp/my_process.
+
+# Start an infinite loop
+while true
+do
+  # Write a message to a file, appending to avoid overwriting
+  echo "I am alive!" >> /tmp/my_process
+  
+  # Pause for 2 seconds before the next iteration
+  sleep 2
+done
+
