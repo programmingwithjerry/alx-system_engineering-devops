@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+# Loop through all PIDs in /proc and check their process name
+
+for pid in /proc/[0-9]*; do
+    if [ -f "$pid/comm" ]; then
+        process_name=$(cat "$pid/comm")
+        if [[ "$process_name" == *bash* ]]; then
+            echo "PID: ${pid#/proc/}, Process Name: $process_name"
+        fi
+    fi
+done
+
