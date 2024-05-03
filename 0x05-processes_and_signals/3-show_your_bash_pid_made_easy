@@ -1,12 +1,13 @@
 #!/usr/bin/env bash
 # Loop through all PIDs in /proc and check their process name
 
-for pid in /proc/[0-9]*; do
-    if [ -f "$pid/comm" ]; then
-        process_name=$(cat "$pid/comm")
+for pid_path in /proc/[0-9]*; do
+    comm_file="$pid_path/comm"  # Path to the process name file
+    if [ -f "$comm_file" ]; then  # Check if the file exists
+        process_name=$(cat "$comm_file")  # Get the process name
         if [[ "$process_name" == *bash* ]]; then
-            echo "PID: ${pid#/proc/}, Process Name: $process_name"
+            pid="${pid_path#/proc/}"  # Extract PID from the path
+            echo "$pid $process_name"
         fi
     fi
 done
-
