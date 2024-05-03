@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+# Infinite loop with a 2-second delay and SIGTERM trap inside the loop
+
+while true
+do
+  echo "To infinity and beyond"  # Output the message
+  sleep 2  # Pause for 2 seconds
+  
+  # Trap SIGTERM and display a custom message
+  trap 'echo "I am invincible!!!"' SIGTERM
+done
+
