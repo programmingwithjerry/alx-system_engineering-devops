@@ -16,6 +16,6 @@ do
     echo "$part_after_dash"
   else
     # If no dash is found, print a message indicating no dash
-    echo "$item (no dash)"
+    echo "$item"
   fi
 done
