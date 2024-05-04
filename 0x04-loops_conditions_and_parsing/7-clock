@@ -7,19 +7,22 @@
 # Initialize the hour and minute variables
 hour=0
 
-# Use a while loop for the hours from 0 to 12
+# Loop through the hours from 0 to 12
 while [ $hour -le 12 ]
 do
-  # Initialize the minute variable for each hour
+  # Display the current hour
+  echo "Hour: $hour"
+  
+  # Initialize the minute variable
   minute=1
   
-  # Use a nested while loop for the minutes from 1 to 59
+  # Loop through the minutes from 1 to 59
   while [ $minute -le 59 ]
   do
-    echo "Hour: $hour, Minute: $minute"
-    minute=$((minute + 1))
+    echo "$minute"  # Print the minute
+    minute=$((minute + 1))  # Increment the minute
   done
   
-  # Increment the hour variable
+  # Increment the hour
   hour=$((hour + 1))
 done
