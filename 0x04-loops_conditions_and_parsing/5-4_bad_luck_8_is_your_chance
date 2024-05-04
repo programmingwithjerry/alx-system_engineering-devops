@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+# This script loops through 1 to 10 using while
+
+# Initialize the loop counter
+count=1
+
+# Use a while loop to go from 1 to 10
+while [ $count -le 10 ]
+do
+  # Check if the current iteration is 4 or 8
+  if [ $count -eq 4 ]
+  then
+    echo "bad luck"
+  elif [ $count -eq 8 ]
+  then
+    echo "good luck"
+  else
+    echo "Best School"
+  fi
+  
+  # Increment the loop counter
+  count=$((count + 1))
+done
