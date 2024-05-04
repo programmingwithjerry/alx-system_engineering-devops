@@ -5,11 +5,17 @@
 # In a list format
 # Where only the part of the name after the first dash is displayed
 
-# Get a list of all non-hidden files and directories in the current directory
-file_list=$(ls)
-
-# Loop through each item in the list
-for file_name in $file_list; do
-  # Extract and display the part of the name after the first dash
-  echo "$file_name" | cut -d '-' -f2
+# Loop through all non-hidden files and directories in the current directory
+for item in *
+do
+  # Check if the filename contains a dash
+  if [[ "$item" == *-* ]]
+  then
+    # Extract the part of the name after the first dash
+    part_after_dash="${item#*-}"
+    echo "$part_after_dash"
+  else
+    # If no dash is found, print a message indicating no dash
+    echo "$item (no dash)"
+  fi
 done
