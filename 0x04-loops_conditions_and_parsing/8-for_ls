@@ -1,0 +1,19 @@
+
+# A a Bash script that displays:
+
+# The content of the current directory
+# In a list format
+# Where only the part of the name after the first dash is displayed
+
+# Loop through all non-hidden files and directories in the current directory
+for item in *; do
+  # Check if there's a dash in the name
+  if [[ "$item" == *-* ]]; then
+    # Extract the part of the name after the first dash
+    new_name="${item#*-}"
+    echo "$new_name"
+  else
+    # If there's no dash, display the entire name
+    echo "$item"
+  fi
+done
