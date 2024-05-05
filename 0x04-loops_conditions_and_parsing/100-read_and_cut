@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# a Bash script that displays the content of the file /etc/passwd.
+
+# Open /etc/passwd for reading
+while IFS=: read -r username password uid gid gecos home shell; do
+  # Output the desired fields: username, user ID, and home directory path
+  echo "Username: $username, User ID: $uid, Home Directory: $home"
+done < /etc/passwd
