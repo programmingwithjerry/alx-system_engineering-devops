@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+# This script extracts IP addresses and HTTP status codes from an Apache access log,
+# counts unique combinations, and sorts the output by frequency in descending order.
+
+# Read and extract the first and ninth fields (IP address and HTTP status code)
+awk '{print $1, $9}' apache-access.log \
+  | sort \
+  | uniq -c \
+  | sort -nr
+
