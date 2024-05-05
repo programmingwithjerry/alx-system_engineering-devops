@@ -1,10 +1,13 @@
 #!/usr/bin/env bash
-# a Bash script that displays the content of the file /etc/passwd.
+# This script displays the username, user ID, and home directory
+# for each line in the /etc/passwd file.
 
-# Open /etc/passwd for reading
-while IFS= read -r username password uid gid gecos home shell
-do
-  # Output the desired fields: username, user ID, and home directory path
-  echo "Username: $username, User ID: $uid, Home Directory: $home"
-done < /etc/passwd
+# Specify the input file
+input="/etc/passwd"
+
+# Read through each line of /etc/passwd
+while IFS= read -r line; do
+  # Use awk to extract and print specific fields: username, user ID, and home directory
+  echo "$line" | awk -F':' '{print $1, $3, $6}'
+done < "$input"
 
