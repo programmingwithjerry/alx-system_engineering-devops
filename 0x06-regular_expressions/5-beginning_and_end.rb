@@ -1,12 +1,9 @@
 #!/usr/bin/env ruby
-input_string = ARGV[0]
+matches = []
 
-# Split into individual words or characters
-parts = input_string.split(/[^a-zA-Z]/)
+ARGV[0].gsub(/h.n/) do |m|
+  matches << m
+end
 
-# Use `grep` or `select` to find matches
-matches = parts.grep(/h.n/)
-
-# Join the results
 puts matches.join
 
