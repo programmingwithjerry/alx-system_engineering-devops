@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+# Bash script that listens on port 98 on localhost
+
+# Listen on port 98 on localhost with socat
+socat TCP-LISTEN:98,bind=127.0.0.1,fork -
+
