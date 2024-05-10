@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# pings an IP address passed as an argument and checks if the host is on the network
+# pings an IP address passed as an argument
 
 # Check if the number of arguments is exactly one
 if [ $# -ne 1 ]; then
