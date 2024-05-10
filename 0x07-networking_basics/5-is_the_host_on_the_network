@@ -1,22 +1,12 @@
 #!/usr/bin/env bash
-# pings an IP address passed as an argument and checks if the host is on the network
+# This script pings an IP address passed as an argument to check if the host is reachable.
 
-# Check if the number of arguments is exactly one
-if [ $# -ne 1 ]; then
-    echo "Usage: $0 {IP_ADDRESS}"
-    exit 1
-fi
-
-# Store the IP address argument
-IP_ADDRESS="$1"
-
-# Perform 5 pings to the given IP address and exit if it fails
-ping -c 5 "$IP_ADDRESS"
-
-# Check the return value of the ping command to see if it was successful
-if [ $? -eq 0 ]; then
-    echo "Host $IP_ADDRESS is reachable."
+# Check if there is exactly one argument provided to the script.
+if [ $# != 1 ]; then
+    # If not, display the correct usage message and exit.
+    echo "Usage: 5-is_the_host_on_the_network {IP_ADDRESS}"
 else
-    echo "Host $IP_ADDRESS is not reachable."
+    # If there is one argument, use the ping command to send 5 packets to the specified IP address.
+    ping -c 5 "$1"  # The "-c 5" option limits the number of ping packets to 5.
 fi
 
