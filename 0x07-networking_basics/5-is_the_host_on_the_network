@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # pings an IP address passed as an argument and checks if the host is on the network
 
 # Check if the number of arguments is exactly one
