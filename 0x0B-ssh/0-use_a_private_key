@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-
 # Define the server address (replace with your actual server address)
 server_address="34.201.174.108"
 
