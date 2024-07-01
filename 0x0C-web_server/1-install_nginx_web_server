@@ -1,17 +1,18 @@
 #!/usr/bin/env bash
-# Script to install and configure nginx server on an Ubuntu Linux distribution.
-# Installs nginx, configures it to listen on port 80 for HTTP connections,
-# and serves a default 'Hello World!' page on HTTP GET requests.
+# Script to install and setup nginx web server.
 
 # Update package lists and upgrade existing packages (-y for automatic yes to prompts)
-sudo apt-get update -y
+apt-get -y update
+
+# Upgrade installed packages to their latest versions (-y for automatic yes to prompts)
+apt-get -y upgrade
 
 # Install nginx web server (-y for automatic yes to prompts)
-sudo apt-get install nginx -y
+apt-get -y install nginx
+
+# Start nginx service to activate the web server
+service nginx start
 
 # Create a simple 'Hello World!' index page in the default nginx web directory
-echo 'Hello World!' > /var/www/html/index.html
-
-# Restart nginx service to apply configuration changes
-service nginx restart
+echo "Hello World!" > /var/www/html/index.nginx-debian.html
 
