@@ -1,24 +1,17 @@
-#!/usr/bin/env bash
+#!/bin/bash
+# Script to transfer a file to a remote server using scp with SSH key authentication.
 
-# Check if less than 4 parameters are passed
-if [ "$#" -lt 4 ]; then
-    echo "Usage: 0-transfer_file PATH_TO_FILE IP USERNAME PATH_TO_SSH_KEY"
-    exit 1
-fi
-
-# Assign parameters to variables
-FILE_PATH=$1
-SERVER_IP=$2
-USERNAME=$3
-SSH_KEY_PATH=$4
-
-# Use scp to transfer the file
-scp 0- "$SSH_KEY_PATH" -1 StrictHostKeyChecking=no "$FILE_PATH" "$USERNAME@$SERVER_IP:~"
-
-# Check if scp was successful
-if [ $? -eq 0 ]; then
-    echo "File transferred successfully."
+# Check if the number of arguments passed is less than 4
+if [ $# -lt 4 ]; then
+  # Print usage information if fewer than 4 arguments are provided
+  echo "Usage: 0-transfer_file PATH_TO_FILE IP USERNAME PATH_TO_SSH_KEY"
 else
-    echo "File transfer failed."
-    exit 1
+  # Use scp to transfer the file
+  # -o StrictHostKeyChecking=no: Disables strict host key checking
+  # -i "$4": Uses the SSH private key provided as the fourth argument
+  # "$1": The path to the file to be transferred (first argument)
+  # "$3@$2": The username and IP address of the server (third and second arguments respectively)
+  # :~: Copies the file to the user's home directory on the remote server
+  scp -o StrictHostKeyChecking=no -i "$4" "$1" "$3@$2":~
 fi
+i
