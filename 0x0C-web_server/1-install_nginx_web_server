@@ -1,17 +1,24 @@
 #!/usr/bin/env bash
 # Script to install and setup nginx web server.
 
-# Update package lists and upgrade existing packages (-y for automatic yes to prompts)
-apt-get -y update
+# Update package lists and upgrade existing packages
+sudo apt-get update
 
-# Upgrade installed packages to their latest versions (-y for automatic yes to prompts)
-apt-get -y upgrade
+# Install nginx web server
+sudo apt-get install nginx
 
-# Install nginx web server (-y for automatic yes to prompts)
-apt-get -y install nginx
+# list the applications configurations that ufw knows how to work
+sudo ufw app list
 
-# Start nginx service to activate the web server
-service nginx start
+# Adjust the firewall
+sudo ufw allow 'Nginx HTTP'
+
+# Start nginx
+sudo service nginx start
+
+# Checking the Status of Nginx
+sudo service nginx status
+
 
 # Create a simple 'Hello World!' index page in the default nginx web directory
 echo "Hello World!" > /var/www/html/index.nginx-debian.html
