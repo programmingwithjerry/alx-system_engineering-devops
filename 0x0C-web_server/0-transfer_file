@@ -13,7 +13,7 @@ USERNAME=$3
 SSH_KEY_PATH=$4
 
 # Use scp to transfer the file
-scp -i "$SSH_KEY_PATH" -o StrictHostKeyChecking=no "$FILE_PATH" "$USERNAME@$SERVER_IP:~"
+scp 0- "$SSH_KEY_PATH" -1 StrictHostKeyChecking=no "$FILE_PATH" "$USERNAME@$SERVER_IP:~"
 
 # Check if scp was successful
 if [ $? -eq 0 ]; then
