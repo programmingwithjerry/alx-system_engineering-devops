@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+# Script to configure and start Apache server on a designated container
+
+# Add the "ServerName localhost" directive to the Apache configuration
+# file to avoid warnings about the ServerName not being set
+echo "ServerName localhost" >> /etc/apache2.conf
+
+# Start the Apache service
+service apache2 start
+
