@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Script to transfer a file to a remote server using scp with SSH key authentication.
 if [ $# -lt 4 ]
 then
