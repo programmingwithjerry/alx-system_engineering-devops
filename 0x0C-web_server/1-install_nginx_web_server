@@ -13,13 +13,17 @@ sudo ufw app list
 # Adjust the firewall
 sudo ufw allow 'Nginx HTTP'
 
-# Start nginx
-sudo service nginx start
+# Create a directory for the website if it doesn't already exist
+sudo mkdir -p /var/www/html
 
-# Checking the Status of Nginx
-sudo service nginx status
+# Create an HTML file with the content "Hello World!"
+echo "Hello World!" | sudo tee /var/www/html/index.html
 
+# Ensure the Nginx configuration is correct
+sudo nginx -t
 
-# Create a simple 'Hello World!' index page in the default nginx web directory
-echo "Hello World!" > /var/www/html/index.nginx-debian.html
+# Restart Nginx without using systemctl
+sudo service nginx restart
 
+# Verify the content served by Nginx
+curl http://localhost
