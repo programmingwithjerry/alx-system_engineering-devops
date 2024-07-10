@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+# Script to install and setup nginx web server with a redirection.
+
+# Update package lists and upgrade existing packages
+sudo apt-get update
+
+# Install nginx web server
+sudo apt-get install -y nginx
+
+# Allow 'Nginx HTTP' through the firewall
+sudo ufw allow 'Nginx HTTP'
+
+# Create a configuration file for the default server block
+sudo tee /etc/nginx/sites-available/default > /dev/null <<EOL
+server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+
+    root /var/www/html;
+    index index.html index.htm index.nginx-debian.html;
+
+    server_name _;
+
+    location / {
+        try_files \$uri \$uri/ =404;
+    }
+
+    location /redirect_me {
+        return 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;
+    }
+}
+EOL
+
+# Ensure the Nginx configuration is correct
+sudo nginx -t
+
+# Restart Nginx to apply changes
+sudo service nginx restart
+
+# Verify the content served by Nginx
+curl -I http://localhost/redirect_me
