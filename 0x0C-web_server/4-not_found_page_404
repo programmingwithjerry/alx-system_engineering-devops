@@ -41,4 +41,5 @@ sudo nginx -t
 sudo service nginx restart
 
 # Verify the custom 404 page
-curl -I http://localhost/non_existent_page
+curl -s -o /tmp/404_test http://localhost/non_existent_page
+grep -q "Ceci n'est pas une page" /tmp/404_test && echo "Custom 404 Page Configured Successfully" || echo "Custom 404 Page Verification Failed"
