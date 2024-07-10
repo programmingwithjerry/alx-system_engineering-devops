@@ -2,7 +2,7 @@
 # Script to install and setup nginx web server with a redirection.
 
 # Update package lists and upgrade existing packages
-sudo apt-get update
+sudo apt-get update -y
 
 # Install nginx web server
 sudo apt-get install -y nginx
