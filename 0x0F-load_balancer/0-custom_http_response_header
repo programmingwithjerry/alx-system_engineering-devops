@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+# Configures a new Ubuntu machine
+
+# Install nginx on the server
+apt-get -y update
+apt-get -y install nginx
+
+# Add custom response header to know the server name for debugging
+HOST_NAME=$(hostname)
+
+# Create a new Nginx configuration file or modify the existing one
+cat <<EOL > /etc/nginx/sites-available/default
+server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+
+    root /var/www/html;
+    index index.html index.htm;
+
+    server_name _;
+
+    location / {
+        try_files \$uri \$uri/ =404;
+        add_header X-Served-By $HOST_NAME;
+    }
+
+    location /redirect_me {
+        return 301 https://www.youtube.com/watch?v=3MbaGJN2ioQ;
+    }
+
+    error_page 404 /custom_404.html;
+    location = /custom_404.html {
+        internal;
+    }
+}
+EOL
+
+# Create a first index.html page
+echo "Hello World!" > /var/www/html/index.html
+
+# Create custom 404 error page
+echo "Ceci n'est pas une page" > /var/www/html/custom_404.html
+
+# Restart nginx
+service nginx restart
