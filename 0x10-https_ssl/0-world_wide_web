@@ -1,38 +1,23 @@
 #!/usr/bin/env bash
-# Usage: ./1-world_wide_web <domain> [<subdomain>]
-# Display information about subdomains.
+# Script to retrieve and display DNS information about subdomains.
 
-# Function to get domain information
-get_domain_information () {
-    local domain=$1         # The main domain
-    local subdomain=$2      # The subdomain
-    local record_info       # Variable to store DNS query result
-
-    # Perform a DNS query for the subdomain and store the result
-    record_info=$(dig "$subdomain.$domain" +short)
-    # Check if a record was found
-    if [ -z "$record_info" ]; then
-        echo "No record found for $subdomain.$domain"
-    else
-        # Output the subdomain information
-        echo "$subdomain $record_info" | awk '{print "The subdomain " $1 " points to " $2}'
-    fi
+# Function to fetch DNS information for a subdomain of a given domain
+fetch_subdomain_info () {
+    # Use `dig` to fetch DNS information for the specified subdomain and domain
+    line=$(dig "$2"."$1" | grep -A1 'ANSWER SECTION:' | tr '\t' '\n' | tail -2 | tr '\n' ' ')
+    
+    # Print formatted output using `awk` to display subdomain, record type, and IP address
+    echo "$2 $line" | awk '{print "The subdomain " $1 " is a " $2 " record and points to " $3}'
 }
 
-# Check if exactly one argument (domain) is provided
-if [ "$#" -eq 1 ]; then
-    # Array of default subdomains
-    subdomains=("www" "lb-01" "web-01" "web-02")
-    # Loop through each subdomain and get its information
-    for sub in "${subdomains[@]}"; do
-        get_domain_information "$1" "$sub"
-    done
-# Check if exactly two arguments (domain and subdomain) are provided
-elif [ "$#" -eq 2 ]; then
-    # Get information for the specific subdomain
-    get_domain_information "$1" "$2"
-else
-    # Print usage instructions if incorrect number of arguments are provided
-    echo "Usage: $0 <domain> [<subdomain>]"
-    exit 1
+# Check the number of command-line arguments
+if [ "$#" == 1 ]; then
+    # If only one argument provided, display information for specific subdomains
+    fetch_subdomain_info "$1" "www"    # Display info for www.<domain>
+    fetch_subdomain_info "$1" "lb-01"  # Display info for lb-01.<domain>
+    fetch_subdomain_info "$1" "web-01" # Display info for web-01.<domain>
+    fetch_subdomain_info "$1" "web-02" # Display info for web-02.<domain>
+elif [ "$#" == 2 ]; then
+    # If two arguments provided, assume the second argument is the subdomain
+    fetch_subdomain_info "$1" "$2"     # Display info for specified subdomain
 fi
