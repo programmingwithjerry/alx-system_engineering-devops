@@ -1,45 +1,40 @@
 #!/usr/bin/env bash
-# Configures a new Ubuntu machine
+# Script to configure a new Ubuntu machine
 
-# Install nginx on the server
-apt-get -y update
-apt-get -y install nginx
+# Update package lists and install nginx
+sudo apt-get -y update
+sudo apt-get -y install nginx
 
-# Add custom response header to know the server name for debugging
+# Retrieve the server's hostname
 HOST_NAME=$(hostname)
+# Define a custom header to include the server's hostname in the response
+HEADER="\\\n\tadd_header X-Served-By $HOST_NAME;\n"
+# Check if the custom header is already present in the nginx configuration
+FIND=$(grep "X-Served-By" /etc/nginx/sites-available/default)
+# If the custom header is not found, add it at line 23 of the configuration file
+if [[ -z $FIND ]]; then
+    sudo sed -i "23i $HEADER" /etc/nginx/sites-available/default
+fi
 
-# Create a new Nginx configuration file or modify the existing one
-cat <<EOL > /etc/nginx/sites-available/default
-server {
-    listen 80 default_server;
-    listen [::]:80 default_server;
+# Create the initial index.html page with the content "Hello World!"
+echo "Hello World!" | sudo tee /var/www/html/index.html > /dev/null
 
-    root /var/www/html;
-    index index.html index.htm;
+# Define the redirection rule for /redirect_me to an external URL
+FIND=$(grep "redirect_me" /etc/nginx/sites-available/default)
+STRING="\\\n\tlocation /redirect_me {\n\t\t return 301 https://www.youtube.com/watch?v=3MbaGJN2ioQ;\n\t}\n"
+# If the redirection rule is not present, add it at line 42 of the configuration file
+if [[ -z $FIND ]]; then
+    sudo sed -i "42i $STRING" /etc/nginx/sites-available/default
+fi
 
-    server_name _;
+# Define the custom 404 error page configuration
+FIND=$(grep "error_page 404" /etc/nginx/sites-available/default)
+ERROR="\\\n\terror_page 404 /custom_404.html;\n"
+# If the custom 404 error page configuration is not present, create the 404 page and add the configuration at line 40
+if [[ -z $FIND ]]; then
+    echo "Ceci n'est pas une page" | sudo tee /var/www/html/custom_404.html > /dev/null
+    sudo sed -i "40i $ERROR" /etc/nginx/sites-available/default
+fi
 
-    location / {
-        add_header X-Served-By $HOST_NAME always;
-        try_files \$uri \$uri/ =404;
-    }
-
-    location /redirect_me {
-        return 301 https://www.youtube.com/watch?v=3MbaGJN2ioQ;
-    }
-
-    error_page 404 /custom_404.html;
-    location = /custom_404.html {
-        internal;
-    }
-}
-EOL
-
-# Create a first index.html page
-echo "Hello World!" > /var/www/html/index.html
-
-# Create custom 404 error page
-echo "Ceci n'est pas une page" > /var/www/html/custom_404.html
-
-# Restart nginx
-service nginx restart
+# Restart the nginx service to apply changes
+sudo service nginx restart
