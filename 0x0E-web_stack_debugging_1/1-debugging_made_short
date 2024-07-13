@@ -1,11 +1,14 @@
 #!/usr/bin/env bash
-# Simplified script to re-enable the default server port
+# Update the port in Nginx configuration
 
-# Create a symbolic link to the default site configuration
-ln -sf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
+# Modify the configuration to change the port from 8080 to 80
+sed -i 's/8080/80/g' /etc/nginx/sites-enabled/default
 
-# Restart the Nginx service to apply the changes
-service nginx restart
+# Restart the Nginx service to apply the updated configuration
+sudo service nginx restart
 
-# Terminate the first instance of the Nginx process
-kill "$(pgrep 'nginx' | head -1)"
+# Gracefully stop the Nginx process
+sudo service nginx stop
+
+# Start the Nginx service again
+sudo service nginx start
