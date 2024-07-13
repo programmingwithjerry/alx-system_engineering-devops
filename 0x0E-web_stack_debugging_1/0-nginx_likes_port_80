@@ -5,4 +5,4 @@
 sudo cp /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
 
 # Restart the Nginx service to apply the changes
-sudo systemctl restart nginx
+sudo servce nginx restart
