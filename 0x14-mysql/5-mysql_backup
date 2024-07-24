@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+# Script to back up and compress all MySQL databases
+
+# Set up date variables
+day=$(date +"%d")  # Get the current day
+month=$(date +"%m")  # Get the current month
+year=$(date +"%Y")  # Get the current year
+file_name="$day-$month-$year.tar.gz"  # Construct the backup file name using the date
+
+# Dump all MySQL databases into a file named backup.sql
+# $1 is the first argument passed to the script, expected to be the MySQL root password
+mysqldump --all-databases -u root --password="$1" > backup.sql
+
+# Compress the backup.sql file into a tar.gz archive with the date-based file name
+tar -czvf "$file_name" backup.sql
+
+# Optional: Remove the uncompressed backup file to save space
+# rm backup.sql
