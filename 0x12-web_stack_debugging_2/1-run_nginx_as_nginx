@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+# This script addresses a server bug by making configuration adjustments and restarting services
+
+# Ensure the nginx configuration file has the correct permissions
+chmod 644 /etc/nginx/nginx.conf
+
+# Set the nginx user to 'nginx' in the configuration file
+sed -Ei 's/\s*#?\s*user .*/user nginx;/' /etc/nginx/nginx.conf
+
+# Modify the nginx site configuration to ensure it listens on port 80
+sed -Ei 's/(listen (\[::\]:)?80) /\180 /' /etc/nginx/sites-enabled/default
+
+# Terminate any running Apache2 processes to avoid conflicts with nginx
+pkill apache2
+
+# Restart the nginx service with the 'nginx' user
+su nginx -s /bin/bash -c 'service nginx restart'
