@@ -2,7 +2,19 @@
 import requests
 import sys
 
+
 def fetch_employee_data(employee_id):
+    """
+    Fetches and displays TODO list progress for a given employee ID.
+
+    Args:
+        employee_id (int): The ID of the employee whose TODO list is to be fetched.
+
+    Prints:
+        - Employee's name and TODO list progress in the format:
+          "Employee EMPLOYEE_NAME is done with tasks(NUMBER_OF_DONE_TASKS/TOTAL_NUMBER_OF_TASKS):"
+        - List of completed task titles, each preceded by a tab and space.
+    """
     # Define the URLs for the API
     user_url = f"https://jsonplaceholder.typicode.com/users/{employee_id}"
     todos_url = f"https://jsonplaceholder.typicode.com/todos"
@@ -12,7 +24,7 @@ def fetch_employee_data(employee_id):
     if user_response.status_code != 200:
         print("Error: Unable to fetch user data")
         return
-    
+
     # Fetch TODOs data
     todos_response = requests.get(todos_url)
     if todos_response.status_code != 200:
@@ -40,7 +52,12 @@ def fetch_employee_data(employee_id):
         if todo['completed']:
             print(f"\t {todo['title']}")
 
+
 if __name__ == "__main__":
+    """
+    Main function that handles command-line arguments and invokes the data fetching function.
+    Expects one argument: the employee ID.
+    """
     if len(sys.argv) != 2:
         print("Usage: ./script.py EMPLOYEE_ID")
         sys.exit(1)
