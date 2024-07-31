@@ -8,11 +8,13 @@ def fetch_employee_data(employee_id):
     Fetches and displays TODO list progress for a given employee ID.
 
     Args:
-        employee_id (int): The ID of the employee whose TODO list is to be fetched.
+        employee_id (int): The ID of the employee whose TODO list
+      is to be fetched.
 
     Prints:
         - Employee's name and TODO list progress in the format:
-          "Employee EMPLOYEE_NAME is done with tasks(NUMBER_OF_DONE_TASKS/TOTAL_NUMBER_OF_TASKS):"
+          "Employee EMPLOYEE_NAME is done with tasks(
+           NUMBER_OF_DONE_TASKS/TOTAL_NUMBER_OF_TASKS):"
         - List of completed task titles, each preceded by a tab and space.
     """
     # Define the URLs for the API
@@ -35,7 +37,8 @@ def fetch_employee_data(employee_id):
     todos_data = todos_response.json()
     
     # Filter TODOs for the given employee ID
-    employee_todos = [todo for todo in todos_data if todo['userId'] == employee_id]
+    employee_todos = [todo for todo in todos_data if \
+      todo['userId'] == employee_id]
 
     # Get employee name
     employee_name = user_data.get('name')
