@@ -2,6 +2,7 @@
 """Function to get the number of subscribers for a specified Reddit subreddit."""
 import requests
 
+
 def number_of_subscribers(subreddit):
     """Fetch and return the subscriber count for the specified subreddit."""
     endpoint = "https://www.reddit.com/r/{}/about.json".format(subreddit)
