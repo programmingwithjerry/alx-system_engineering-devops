@@ -1,0 +1,1 @@
+Wordpress debugged succexfully
