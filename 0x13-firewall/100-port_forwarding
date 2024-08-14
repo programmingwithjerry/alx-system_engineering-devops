@@ -1,0 +1,62 @@
+#!/usr/bin/env bash
+# This script sets up the Uncomplicated Firewall (UFW) and configures port redirection
+# It blocks all incoming connections except for TCP traffic on ports 22, 443, and 80
+# Additionally, it redirects TCP traffic from port 8080 to port 80
+
+# Update the list of available packages and install UFW
+echo -e "Updating package lists and installing UFW...\n"
+sudo apt-get update
+sudo apt-get install ufw -y
+
+# Configure UFW to support IPv6
+echo -e "Configuring UFW to support IPv6...\n"
+sudo sed -i 's/IPV6=.*/IPV6=yes/' /etc/default/ufw
+
+# Configure UFW to deny all incoming connections by default
+echo -e "Setting default policy to deny incoming traffic...\n"
+sudo ufw default deny incoming
+
+# Configure UFW to allow all outgoing connections by default
+echo -e "Setting default policy to allow outgoing traffic...\n"
+sudo ufw default allow outgoing
+
+# Allow incoming connections on TCP port 22 (SSH)
+echo -e "Allowing incoming traffic on TCP port 22 (SSH)...\n"
+sudo ufw allow 22/tcp
+
+# Allow incoming connections on TCP port 443 (HTTPS)
+echo -e "Allowing incoming traffic on TCP port 443 (HTTPS)...\n"
+sudo ufw allow 443/tcp
+
+# Allow incoming connections on TCP port 80 (HTTP)
+echo -e "Allowing incoming traffic on TCP port 80 (HTTP)...\n"
+sudo ufw allow 80/tcp
+
+# Allow incoming traffic on TCP port 8080
+echo -e "Allowing incoming traffic on TCP port 8080...\n"
+sudo ufw allow 8080/tcp
+
+# Temporarily disable UFW to apply the new configuration
+echo -e "Disabling UFW to apply changes...\n"
+sudo ufw disable
+
+# Re-enable UFW to activate the updated firewall rules
+echo -e "Re-enabling UFW to apply new rules...\n"
+sudo ufw enable
+
+# Set up port redirection with iptables
+echo -e "Configuring port redirection from 8080 to 80...\n"
+sudo iptables -t nat -A PREROUTING -p tcp --dport 8080 -j REDIRECT --to-port 80
+
+# Save iptables rules to ensure they persist across reboots
+echo -e "Saving iptables rules...\n"
+sudo apt-get install netfilter-persistent -y
+sudo netfilter-persistent save
+
+# Output current UFW status and iptables rules
+echo -e "Displaying UFW status and iptables rules...\n"
+sudo ufw status verbose
+sudo iptables -t nat -L -n -v
+
+# Notify the user that the configuration is complete
+echo -e "Firewall setup and port redirection configuration complete.\n"
