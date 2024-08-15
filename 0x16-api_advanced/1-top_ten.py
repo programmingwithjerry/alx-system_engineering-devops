@@ -9,7 +9,8 @@ import requests
 
 def top_ten(subreddit):
     """
-    Retrieves and displays the titles of the top 10 hot posts for the given subreddit.
+    Retrieves and displays the titles of the top 10 hot posts for the
+    given subreddit.
     - Prints None if the subreddit is invalid.
     """
     api_url = "https://www.reddit.com/r/{}/hot.json".format(subreddit)
