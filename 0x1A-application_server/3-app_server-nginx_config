@@ -1,0 +1,42 @@
+# Sets up Nginx to serve the /airbnb-onepage/ route from the AirBnB_clone_v2 application
+# which is running on port 5000
+
+server {
+    listen 80;
+    listen [::]:80 default_server;
+    
+    # Adds a custom HTTP response header
+    add_header X-Served-By 484993-web-01;
+    root /var/www/html;
+    index index.html index.htm;
+    
+    # Use the server's IP address as the domain name
+    server_name 54.236.46.92;
+
+    # Route traffic for /airbnb-onepage/ to AirBnB_clone_v2
+    location /airbnb-onepage/ {
+        proxy_pass http://127.0.0.1:5000/airbnb-onepage/;
+    }
+
+    # Route traffic for /airbnb-dynamic/number_odd_or_even/ to the process listening on port 5001
+    location ~ /airbnb-dynamic/number_odd_or_even/(\d+)$ {
+        proxy_pass http://127.0.0.1:5001/number_odd_or_even/$1;
+    }
+
+    # Serve static files from the /hbnb_static route
+    location /hbnb_static {
+        alias /data/web_static/current/;
+    }
+
+    # Custom 404 error page
+    error_page 404 /404.html;
+    location /404 {
+        root /var/www/html;
+        internal;
+    }
+
+    # Redirect the /redirect_me route to a specific URL
+    location /redirect_me {
+        return 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;
+    }
+}
